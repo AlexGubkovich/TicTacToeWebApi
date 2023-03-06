@@ -9,9 +9,7 @@ namespace TicTacToeWebApi.DTOs
         public int PlayerId { get; set; }
 
         [Required]
+        [Range(1, 9)]
         public int CellNumber { get; set; }
-
-        [Required]
-        public CellValues Value { get; set; }
     }
 }

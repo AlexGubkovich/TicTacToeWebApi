@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TicTacToeWebApi.Configurations;
 using TicTacToeWebApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<GamesDbContext>(opt => opt.UseInMemoryDatabase("GameDb"));
 builder.Services.AddScoped<IGameRepository, GameRepository>();
+
+builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 var app = builder.Build();
 

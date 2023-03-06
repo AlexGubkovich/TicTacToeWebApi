@@ -49,7 +49,7 @@ namespace TicTacToeWebApi.Controllers
 
             var gameReadDto = mapper.Map<GameReadDto>(game);
 
-            return CreatedAtAction(nameof(GetGameById), new { Id = gameReadDto.Id }, gameReadDto);
+            return CreatedAtAction(nameof(GetGameById), new { gameReadDto.Id }, gameReadDto);
         }
 
         [HttpDelete("{id:int}")]
@@ -66,7 +66,7 @@ namespace TicTacToeWebApi.Controllers
             return NotFound();
         }
 
-        [HttpPatch]
+        [HttpPatch("{gameId:int}")]
         public async Task<ActionResult> MakeMove(int gameId, MoveDto move)
         {
             var game = await repository.GetGameById(gameId);
@@ -75,11 +75,17 @@ namespace TicTacToeWebApi.Controllers
                 return NotFound($"Game with id: {gameId} not found");
             }
 
-            if (game.Players.Exists(p => p.Id == move.PlayerId))
+            var player = game.Players.Find(p => p.Id == move.PlayerId);
+
+            if (player != null)
             {
-                game.Cells[move.CellNumber].PlayerId = move.PlayerId;
-                game.Cells[move.CellNumber].Value = move.Value;
-                await repository.SaveAsync();
+                var cell = game.Cells.Find(p => p.Number == move.CellNumber);
+                if(cell != null)
+                {
+                    cell.PlayerId = move.PlayerId;
+                    cell.Value = player.PlayerMoveType;
+                    await repository.SaveAsync();
+                }
             }
             else
             {

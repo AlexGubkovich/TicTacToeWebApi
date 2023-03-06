@@ -13,7 +13,9 @@ namespace TicTacToeWebApi.Data
         }
 
         public async Task<IEnumerable<Game>> GetAllGames() =>
-            await context.Games.ToListAsync();
+            await context.Games
+                .Include(p => p.Players)
+                .ToListAsync();
 
         public async Task<Game?> GetGameById(int id) =>
             await context.Games
@@ -22,9 +24,10 @@ namespace TicTacToeWebApi.Data
 
         public async Task CteateNewGame(Game game)
         {
+            game.Cells = new List<Cell>(9);
             for (int i = 0; i < 9; i++)
             {
-                game.Cells[i] = new() { Number = i + 1 };
+                game.Cells.Add(new() { Number = i + 1 });
             }
 
             await context.Players.AddRangeAsync(game.Players);

@@ -2,7 +2,7 @@
 {
     public enum CellValues
     {
-        X,
-        O
+        O,
+        X
     }
 }

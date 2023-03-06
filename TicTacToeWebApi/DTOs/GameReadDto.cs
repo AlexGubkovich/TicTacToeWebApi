@@ -6,6 +6,7 @@ namespace TicTacToeWebApi.DTOs
     {
         public int Id { get; set; }
 
-        public Cell[] Cells { get; set; } = new Cell[9];
+        public List<Cell> Cells { get; set; } = null!;
+        public List<Player> Players { get; set; } = null!;
     }
 }

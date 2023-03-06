@@ -1,6 +1,10 @@
-﻿namespace TicTacToeWebApi.Models
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
+namespace TicTacToeWebApi.Models
 {
-    public struct Cell
+    [Owned]
+    public class Cell
     {
         public int Number { get; set; }
 
