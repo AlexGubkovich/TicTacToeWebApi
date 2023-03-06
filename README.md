@@ -7,9 +7,9 @@ Domain: tictactoe3.azurewebsites.net
 Example:
 
 Get all games:
-tictactoe3.azurewebsites.net/api/games/
+http://tictactoe3.azurewebsites.net/api/games
 
 Get a game with id 1:
-tictactoe3.azurewebsites.net/api/games/1
+http://tictactoe3.azurewebsites.net/api/games/1
 
 
