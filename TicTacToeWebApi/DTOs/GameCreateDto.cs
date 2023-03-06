@@ -16,9 +16,16 @@ namespace TicTacToeWebApi.DTOs
                 errors.Add(new ValidationResult("Count of players should equals two"));
             }
 
-            if (Players[0].PlayerMoveType == Players[1].PlayerMoveType)
+            try
             {
-                errors.Add(new ValidationResult("Players must have different types of moves"));
+                if (Players[0].PlayerMoveType == Players[1].PlayerMoveType)
+                {
+                    errors.Add(new ValidationResult("Players must have different types of moves"));
+                }
+            }
+            catch
+            {
+                return errors;
             }
 
             return errors;
