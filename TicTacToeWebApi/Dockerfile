@@ -1,0 +1,20 @@
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["TicTacToeWebApi/TicTacToeWebApi.csproj", "TicTacToeWebApi/"]
+RUN dotnet restore "TicTacToeWebApi/TicTacToeWebApi.csproj"
+COPY . .
+WORKDIR "/src/TicTacToeWebApi"
+RUN dotnet build "TicTacToeWebApi.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "TicTacToeWebApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "TicTacToeWebApi.dll"]
